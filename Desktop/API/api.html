@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Display</title>
+  <style>
+    
+    #searchInput {
+      margin-bottom: 10px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Data Display</h1>
+  <input type="text" id="searchInput" placeholder="Enter Resource Number">
+  <button onclick="fetchData()">Search</button>
+  <div id="result"></div>
+
+  <script>
+    function fetchData() {
+      var resourceNumber = document.getElementById('searchInput').value;
+      fetch('https://stat.ripe.net/data/announced-prefixes/data.json?resource=' + resourceNumber)
+        .then(response => response.json())
+        .then(data => displayData(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function displayData(data) {
+      var resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = ''; // Clear previous results
+
+      if (data.status === 'error') {
+        resultDiv.innerHTML = 'No results found.';
+        return;
+      }
+
+      var prefixes = data.data.prefixes;
+      if (prefixes.length === 0) {
+        resultDiv.innerHTML = 'No prefixes found for the specified resource.';
+        return;
+      }
+
+      var table = document.createElement('table');
+      var headerRow = table.insertRow();
+      headerRow.innerHTML = '<th>S.N.</th><th>Prefix</th><th>Start Time</th><th>End Time</th>';
+
+      for (var i = 0; i < prefixes.length; i++) {
+        var row = table.insertRow();
+        row.innerHTML = '<td>' + (i + 1) + '</td>' +
+          '<td>' + prefixes[i].prefix + '</td>' +
+          '<td>' + prefixes[i].start_time + '</td>' +
+          '<td>' + prefixes[i].end_time + '</td>';
+      }
+
+      resultDiv.appendChild(table);
+    }
+  </script>
+</body>
+</html>
