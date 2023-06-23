@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data Display</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+   <table>
+    <thead>
+        <tr>
+            <th>SN</th>
+            <th>Prefix</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for prefix in prefixes %} 
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ prefix.prefix }}</td>
+            <td>{{ prefix.timelines.0.starttime}}</td>
+            <td>{{ prefix.timelines.0.endtime }}</td>
+        </tr>
+    {% endfor %}  
+    </tbody>
+   </table>
+</body>
+</html>

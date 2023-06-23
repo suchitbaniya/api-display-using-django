@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data Display</title>
+</head>
+<body>
+    <h1>API Data Display</h1>
+    <form action="{% url 'search' %}" method="get">
+        <label for="resource_number">Resource Number:</label>
+        <input type="text" id="resource_number" name="resource_number" required>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
